@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Allocation & Deallocation Simulator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo">
+                        <div class="logo-icon">🧠</div>
+                        <div class="logo-text">
+                            <h1>Memory Allocation Simulator</h1>
+                            <p>Dynamic memory management with visual feedback</p>
+                        </div>
+                    </div>
+                </div>
+                <button id="resetBtn" class="btn btn-secondary">
+                    <span class="btn-icon">🔄</span>
+                    Reset
+                </button>
+            </div>
+        </header>
+
+        <!-- Notification -->
+        <div id="notification" class="notification hidden">
+            <span id="notificationMessage"></span>
+        </div>
+
+        <!-- Memory Stats -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <div class="stat-label">Total Memory</div>
+                    <div class="stat-value" id="totalMemory">1024B</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon utilization">📈</div>
+                <div class="stat-content">
+                    <div class="stat-label">Utilization</div>
+                    <div class="stat-value" id="utilization">0%</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="utilizationBar"></div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon allocated">💾</div>
+                <div class="stat-content">
+                    <div class="stat-label">Allocated</div>
+                    <div class="stat-value" id="allocated">0B</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon fragmentation">⚠️</div>
+                <div class="stat-content">
+                    <div class="stat-label">Fragmentation</div>
+                    <div class="stat-value" id="fragmentation">0%</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Memory Visualizer -->
+        <section class="memory-section">
+            <h3>Memory Layout</h3>
+            <div class="memory-scale">
+                <span>0x0000</span>
+                <span>0x0200</span>
+                <span>0x0400</span>
+            </div>
+            <div class="memory-container">
+                <div id="memoryBlocks" class="memory-blocks"></div>
+            </div>
+            <div class="memory-legend">
+                <div class="legend-item">
+                    <div class="legend-color allocated"></div>
+                    <span>Allocated</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color free"></div>
+                    <span>Free</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Grid -->
+        <div class="main-grid">
+            <!-- Allocation Form -->
+            <section class="card">
+                <div class="card-header">
+                    <h3>➕ Allocate Memory</h3>
+                </div>
+                <form id="allocationForm" class="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="processId">Process ID</label>
+                            <input type="text" id="processId" placeholder="e.g., P1, PROC001" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="processName">Process Name</label>
+                            <input type="text" id="processName" placeholder="e.g., Chrome, System Process" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="memorySize">Memory Size (Bytes)</label>
+                            <input type="number" id="memorySize" placeholder="64" min="1" max="1024" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="strategy">⚙️ Allocation Strategy</label>
+                            <select id="strategy" required>
+                                <option value="first-fit">First Fit</option>
+                                <option value="best-fit">Best Fit</option>
+                                <option value="worst-fit">Worst Fit</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-icon">➕</span>
+                        Allocate Memory
+                    </button>
+                </form>
+            </section>
+
+            <!-- Process List -->
+            <section class="card">
+                <div class="card-header">
+                    <h3>🖥️ Process Management</h3>
+                    <span id="processCount" class="badge">0 processes</span>
+                </div>
+                <div id="processList" class="process-list">
+                    <div class="empty-state">
+                        <div class="empty-icon">🖥️</div>
+                        <p>No processes created yet</p>
+                        <small>Use the allocation form to create your first process</small>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Allocation History -->
+        <section class="card">
+            <div class="card-header">
+                <h3>📜 Allocation History</h3>
+            </div>
+            <div id="allocationHistory" class="history-list">
+                <div class="empty-state">
+                    <div class="empty-icon">🕒</div>
+                    <p>No allocation history yet</p>
+                    <small>Memory operations will appear here</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <span class="footer-icon">🖥️</span>
+                    <span>Memory Allocation Simulator</span>
+                </div>
+                <div class="footer-right">
+                    Built with Flask, SQLite & Vanilla JavaScript
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
